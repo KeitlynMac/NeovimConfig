@@ -238,10 +238,10 @@ vim.api.nvim_set_keymap('n', '<space>c', ':JavaNew<CR>', { noremap = true, silen
 
 
 ----------Atajos-----------------------
-require("which-key").setup({
+--require("which-key").setup({
     -- Esto hace que el menú aparezca más rápido o lento
-    timeoutlen = 500, 
-})
+    --timeoutlen = 500, 
+--})
 
 
 --- GESTOR DE PROYECTOS (PROJECT.NVIM) ---

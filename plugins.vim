@@ -23,6 +23,13 @@ Plug 'kosayoda/nvim-lightbulb'
 "Iconos para el cmp
 Plug 'onsails/lspkind.nvim'
 
+"Barra de Navegacion
+Plug 'SmiteshP/nvim-navic'
+Plug 'utilyre/barbecue.nvim'
+
+"Historial de sesiones
+Plug 'folke/persistence.nvim'
+
 "Error Leans
 Plug 'rachartier/tiny-inline-diagnostic.nvim'
 

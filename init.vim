@@ -33,7 +33,6 @@ set shellcmdflag=-lc
 
 
 so ~/.config/nvim/plugins.vim
-runtime! config/*.lua
 runtime! plugins/*.lua
 so ~/.config/nvim/require.vim
 so ~/.config/nvim/mappings.vim

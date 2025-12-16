@@ -39,11 +39,6 @@ Plug 'smjonas/inc-rename.nvim'
 "Terminal
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 
-
-"Atajos
-Plug 'folke/which-key.nvim'
-
-
 "Cambiar de rama
 
 Plug 'ahmedkhalf/project.nvim'

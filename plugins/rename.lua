@@ -1,4 +1,3 @@
-
 -- 1. Configuración del Plugin Inc-Rename
 require("inc_rename").setup {
   -- Crucial: Usa el grupo de resaltado 'Substitute' para el efecto visual
@@ -23,6 +22,7 @@ vim.keymap.set("n", "<space>m", function()
   -- Si el renombrado falla, no cerramos Neovim.
   pcall(vim.lsp.buf.rename)
 end, { desc = "Refactorizar (LSP Estable)" })
+
 
 
 

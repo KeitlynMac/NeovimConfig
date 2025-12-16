@@ -7,7 +7,6 @@ lua <<EOF
   require("nvim-autopairs").setup{}
 
   -- MASON y LSP (DEBEN IR JUNTOS)
-  require'mason'.setup{}
   -- require'nvim-lsp-installer'.setup {} -- ¡OBSOLETO!
 
   

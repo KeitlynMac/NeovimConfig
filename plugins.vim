@@ -160,7 +160,6 @@ Plug 'tpope/vim-surround'
 
  Plug 'neovim/nvim-lspconfig' 
 
- Plug 'williamboman/nvim-lsp-installer'
 
 
 

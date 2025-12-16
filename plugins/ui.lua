@@ -101,7 +101,7 @@ require("telescope").load_extension("ui-select")
 
 require("toggleterm").setup{
   -- El atajo Espacio + t
-  open_mapping = [[<space>t]],
+  open_mapping = [[<C-t>]],
   
   hide_numbers = true,
   shade_terminals = true,

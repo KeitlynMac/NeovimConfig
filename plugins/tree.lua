@@ -1,4 +1,3 @@
- --- CONFIGURACIÓN NVIM-TREE (FULL COLOR & SYMBOLS) ---
 require("nvim-tree").setup({
     
     sync_root_with_cwd = true, 
@@ -95,7 +94,6 @@ require("nvim-tree").setup({
     timeout = 500,
   },
 })
-
 
 
  --- CONFIGURACIÓN DE ICONOS ESTILO VSCODE SYMBOLS ---

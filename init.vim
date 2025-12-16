@@ -1,6 +1,7 @@
 set number
-set signcolumn=auto
-set numberwidth=6
+set signcolumn=yes:1
+set statuscolumn=%s%=%{v:relnum?v:relnum:v:lnum}\ \ \ 
+set numberwidth=2
 set termguicolors
 set belloff=all
 set mouse=a
@@ -37,4 +38,5 @@ runtime! plugins/*.lua
 so ~/.config/nvim/require.vim
 so ~/.config/nvim/mappings.vim
 so ~/.config/nvim/plug-conf.vim
-
+" Desactivar la columna de estado en el Dashboard y NvimTree para que se vean limpios
+autocmd FileType alpha,NvimTree setlocal statuscolumn= nonumber norelativenumber signcolumn=no

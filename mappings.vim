@@ -4,7 +4,6 @@
 nnoremap <space>ff <cmd> :Telescope find_files<cr>
 nnoremap <space>fa <cmd> :Telescope live_grep<cr>
 nnoremap <space>hj <cmd> :Telescope buffers<cr>
-nnoremap <space>g <cmd> :Telescope help_tags<cr>
 
 " Volver al Dashboard (Home) con Leader + h
 nnoremap <space>h :Alpha<CR>

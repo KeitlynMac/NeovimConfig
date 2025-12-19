@@ -1,32 +1,35 @@
 local jdtls = require('jdtls')
 local home = os.getenv('HOME')
-
--- Lógica inteligente para definir la raíz del proyecto (Evita el problema de los 2 JDTLS)
-local root_dir = (function()
-    local root = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle'})
-    if not root then root = vim.fn.expand('%:p:h') end
-    if root == os.getenv('HOME') then return vim.fn.expand('%:p:h') end
-    return root
-end)()
-
-local project_name = vim.fn.fnamemodify(root_dir, ':p:h:t')
-local workspace_dir = home .. '/.cache/jdtls-workspace/' .. project_name .. "_" .. vim.fn.sha256(root_dir)
+local mason_path = vim.fn.stdpath("data") .. "/mason/packages"
 
 -- ==========================================================
--- 1. RUTA DEL DEBUGGER
+-- 1. RUTAS DINÁMICAS (Debugger y Tests)
 -- ==========================================================
-local debug_jar_path = "/home/nyltiek/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-0.53.2.jar"
+local debug_adapter_path = mason_path .. "/java-debug-adapter"
+local debug_jar = vim.fn.glob(debug_adapter_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar")
+
+local java_test_path = mason_path .. "/java-test"
+local test_jars = vim.fn.glob(java_test_path .. "/extension/server/*.jar", true)
+
 local bundles = {}
-if vim.fn.filereadable(debug_jar_path) == 1 then
-    table.insert(bundles, debug_jar_path)
+if debug_jar ~= "" then
+    table.insert(bundles, debug_jar)
+end
+for _, jar in ipairs(vim.split(test_jars, "\n")) do
+    if jar ~= "" then table.insert(bundles, jar) end
 end
 
 -- ==========================================================
 -- 2. CONFIGURACIÓN DEL SERVIDOR
 -- ==========================================================
-local mason_path = home .. '/.local/share/nvim/mason/packages/jdtls'
-local launcher_jar = vim.fn.glob(mason_path .. '/plugins/org.eclipse.equinox.launcher_*.jar')
-local config_os = mason_path .. '/config_linux'
+local launcher_jar = vim.fn.glob(mason_path .. '/jdtls/plugins/org.eclipse.equinox.launcher_*.jar')
+local config_os = mason_path .. '/jdtls/config_linux' -- Ajusta a config_mac o config_win si es necesario
+
+local root_dir = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle'})
+if not root_dir then root_dir = vim.fn.getcwd() end
+
+local project_name = vim.fn.fnamemodify(root_dir, ':p:h:t')
+local workspace_dir = home .. '/.cache/jdtls-workspace/' .. project_name .. "_" .. vim.fn.sha256(root_dir)
 
 local config = {
     cmd = {
@@ -55,14 +58,8 @@ local config = {
         java = {
             signatureHelp = { enabled = true },
             contentProvider = { preferred = 'fernflower' },
-            referencesCodeLens = { enabled = false },
-            implementationsCodeLens = { enabled = true },
-
-            -- CONFIGURACIÓN DE INLAY HINTS (NOMBRES DE VARIABLES)
             inlayHints = {
-                parameterNames = {
-                    enabled = "all", -- Muestra el nombre de todos los parámetros (edad, nombre, etc.)
-                }
+                parameterNames = { enabled = "all" }
             }
         }
     },
@@ -70,87 +67,41 @@ local config = {
     on_attach = function(client, bufnr)
         local opts = { silent = true, buffer = bufnr }
 
-        -- ACTIVAR DEBUGGER
-        require('jdtls').setup_dap({ hotcodereplace = 'auto' })
-        require('jdtls.dap').setup_dap_main_class_configs()
-        
-        -- CONFIGURACIÓN CLAVE: Usar Terminal Integrada (Solo 1 ventana)
+        -- 3. INICIAMOS EL DEBUGGER
+        if debug_jar ~= "" then
+            require('jdtls').setup_dap({ hotcodereplace = 'auto' })
+            require('jdtls.dap').setup_dap_main_class_configs()
+        end
+
         local dap = require('dap')
         dap.defaults.java.config = {
-            console = "integratedTerminal", -- Esto fuerza a usar la terminal normal, no la consola extra
+            console = "integratedTerminal",
         }
 
-        -- NOTA: He borrado el bloque "dap.listeners... abrir_consola" 
-        -- para que NO se abra la segunda ventana duplicada.
-
-        -- Atajos
-        vim.keymap.set('n', '<leader>jo', jdtls.organize_imports, opts)
+        -- Atajos estándar
+        vim.keymap.set('n', '<leader>jo', require('jdtls').organize_imports, opts)
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', '<F5>', function() require('dap').continue() end, opts)
-        vim.keymap.set('n', '<F4>', '<cmd>bd!<CR>', opts)
-        -- Si también quieres que funcione estando dentro de la terminal (modo escritura):
-        vim.keymap.set('t', '<F4>', '<C-\\><C-n><cmd>bd!<CR>', opts)
-        -- Opción A: Estándar de Neovim (Espacio + c + a)
-        vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Action" })
-        -- Opción B: Estilo IntelliJ/VS Code (Alt + Enter)
-        -- Nota: En algunas terminales <M-CR> no funciona bien, pero pruébalo.
-        vim.keymap.set("n", "<M-CR>", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Action" })
+        vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
         
-        -- PROTECCIÓN CONTRA EL ERROR ROJO (pcall)
-        if client.server_capabilities.codeLensProvider then
-            vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-                buffer = bufnr,
-                callback = function()
-                    if vim.api.nvim_buf_is_valid(bufnr) then
-                        pcall(vim.lsp.codelens.refresh)
-                    end
-                end,
-            })
+        -- Ejecutar Debug (F5)
+        vim.keymap.set('n', '<F5>', function() 
+            if vim.tbl_count(dap.configurations.java or {}) == 0 then
+                require('jdtls.dap').setup_dap_main_class_configs()
+            end
+            dap.continue() 
+        end, opts)
 
-            -- ... tus atajos anteriores ...
+        -- ==========================================================
+        -- 4. TUS ATAJOS RESTAURADOS (<F4> para salir)
+        -- ==========================================================
+        -- F4 en modo Normal: Cierra el buffer forzosamente
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F4>', ':bd!<CR>', { noremap = true, silent = true })
 
-        -- COMANDO DE FORMATO AL GUARDAR
-            vim.api.nvim_create_autocmd("BufWritePre", {
-                buffer = bufnr,
-                callback = function()
-                    -- Esto ordena el código usando el motor de Eclipse/Java
-                    vim.lsp.buf.format({ async = false })
-                end,
-            })
-        end
+        -- F4 en modo Terminal: Sale del modo terminal y cierra el buffer
+        -- (Útil si el foco se queda atrapado en la terminal del debugger)
+        vim.api.nvim_buf_set_keymap(bufnr, 't', '<F4>', '<C-\\><C-n>:bd!<CR>', { noremap = true, silent = true })
     end
 }
 
 jdtls.start_or_attach(config)
-
--- ==========================================================
---  CONFIGURACIÓN FINAL: F4 PARA CERRAR LA TERMINAL
--- ==========================================================
-local dap = require('dap')
-
--- Esto detecta cuando se abre la terminal y le pega el atajo F4
-dap.listeners.after.event_initialized["configurar_f4_terminal"] = function()
-    -- Esperamos medio segundo a que la ventana exista
-    vim.defer_fn(function()
-        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-            local name = vim.api.nvim_buf_get_name(buf)
-            -- Si encontramos la terminal de Java...
-            if name:match("dap%-terminal") then
-                -- 1. F4 en modo Normal (si ya saliste del modo escritura)
-                vim.api.nvim_buf_set_keymap(buf, 'n', '<F4>', ':bd!<CR>', { noremap = true, silent = true })
-                
-                -- 2. F4 en modo Terminal (mientras estás escribiendo o viendo logs)
-                -- Esto es clave: <C-\><C-n> es el comando para 'salir' de la terminal y luego ejecutamos :bd!
-                vim.api.nvim_buf_set_keymap(buf, 't', '<F4>', '<C-\\><C-n>:bd!<CR>', { noremap = true, silent = true })
-            end
-        end
-    end, 500)
-end
-
--- Activar Inlay Hints si el servidor lo soporta
-if client.server_capabilities.inlayHintProvider then
-    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-end
-
-

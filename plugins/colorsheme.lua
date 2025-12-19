@@ -39,9 +39,6 @@
 vim.opt.termguicolors = true
 vim.opt.background = "dark" 
 
--- 2. Opciones de personalización (vim.g)
--- Estas variables deben ir ANTES de llamar a colorscheme
-
 -- Modo de fondo: 'hard', 'medium' (por defecto), o 'soft'
 -- 'soft' es el más suave para los ojos
 vim.g.everforest_background = 'hard' 
@@ -57,8 +54,13 @@ vim.g.everforest_comments = 'italic'
 vim.g.everforest_disable_cursorline = 0
 vim.g.everforest_cursor_text_color = 1 
 
+-- Haz que el menú emergente sea un poco más oscuro para que resalte sin bordes
+vim.api.nvim_set_hl(0, "Pmenu", { bg = "#273940" }) -- Ajusta este color según tu gusto
+
 -- 3. ACTIVAR EL TEMA
 vim.cmd("colorscheme everforest")
+
+
 
 
 

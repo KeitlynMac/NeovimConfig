@@ -1,48 +1,57 @@
 local cmp = require('cmp')
 local lspkind = require('lspkind')
-local lspconfig = require('lspconfig') -- <--- ESTA LÍNEA FALTABA y causaba el error
+local lspconfig = require('lspconfig')
 
 -- -------------------------------------------------------------------
--- 1. CONFIGURACIÓN VISUAL Y DE COMPORTAMIENTO (CMP)
+-- 1. CONFIGURACIÓN VISUAL (ESTILO VS CODE)
 -- -------------------------------------------------------------------
 cmp.setup({
-  -- Limita la lista a solo 10 resultados (para que no sea gigante)
+  -- Limita resultados para limpieza
   performance = {
-      max_view_entries = 10,
+      max_view_entries = 20, -- VS Code suele mostrar más, 20 es un buen número
   },
+    
 
   snippet = {
     expand = function(args)
        require('luasnip').lsp_expand(args.body) 
-       -- Si usas vsnip descomenta abajo y comenta arriba:
-       -- vim.fn["vsnip#anonymous"](args.body)
     end,
   },
 
+  -- AQUÍ ESTÁ EL CAMBIO CLAVE: "none" quita los marcos
   window = {
-    completion = cmp.config.window.bordered({
-        border = "rounded",
-        winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-    }),
-    documentation = cmp.config.window.bordered({
-        border = "rounded",
-    }),
+    completion = {
+        border = "none", -- Sin bordes visibles
+        side_padding = 1, -- Un poco de aire a los lados
+        winhighlight = "Normal:DiffChange,FloatBorder:Normal,CursorLine:WildMenu,Search:None",
+        scrollbar = false, -- VS Code generalmente no muestra barra de scroll fea
+    },
+    documentation = {
+        border = "none", -- Documentación flotante también limpia
+        winhighlight = "Normal:DiffChange,FloatBorder:Normal,CursorLine:WildMenu,Search:None",
+    },
   },
 
-  -- CONFIGURACIÓN DE ICONOS (LSPKIND)
+  -- -------------------------------------------------------------------
+  -- CORRECCIÓN: Estilo VS Code Real (Icono Izq | Nombre | Tipo Der)
+  -- -------------------------------------------------------------------
   formatting = {
-    fields = { 'kind', 'abbr', 'menu' },
-    format = lspkind.cmp_format({
-      mode = 'symbol_text', -- Muestra icono + texto
-      maxwidth = 50, 
-      ellipsis_char = '...',
-      menu = ({
-          buffer = "[Buf]",
-          nvim_lsp = "[LSP]",
-          luasnip = "[Snip]",
-          path = "[Path]",
-      })
-    })
+    fields = { 'kind', 'abbr', 'menu' }, -- Orden de las columnas
+    format = function(entry, vim_item)
+      local kind = require("lspkind").cmp_format({
+        mode = "symbol_text", -- Pedimos icono Y texto a lspkind
+        maxwidth = 50,
+        symbol_map = { Copilot = "" } -- (Opcional) Por si usas copilot
+      })(entry, vim_item)
+
+      -- TRUCO: Separamos el Icono del Texto
+      local strings = vim.split(kind.kind, "%s", { trimempty = true })
+      
+      kind.kind = " " .. (strings[1] or "") .. " " -- Columna 1: Solo el Icono
+      kind.menu = "    " .. (strings[2] or "")     -- Columna 3: El Texto (Class, Method) a la derecha
+
+      return kind
+    end
   },
 
   mapping = cmp.mapping.preset.insert({
@@ -62,18 +71,15 @@ cmp.setup({
   })
 })
 
--- Búsqueda con / (Usando buffer)
+-- Búsqueda con /
 cmp.setup.cmdline({ '/', '?' }, {
   mapping = cmp.mapping.preset.cmdline(),
   sources = { { name = 'buffer' } }
 })
 
--- (La sección de ':' cmdline la omitimos intencionalmente para que NOICE se vea bien)
-
 -- -------------------------------------------------------------------
 -- 2. CONFIGURACIÓN DE SERVIDORES (LSP)
 -- -------------------------------------------------------------------
--- Definimos las capacidades y atajos comunes
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
@@ -85,7 +91,6 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 end
 
--- Configuración de tus lenguajes
 local servers = { 'ts_ls', 'html', 'cssls', 'sqlls', 'intelephense' }
 
 for _, server in ipairs(servers) do
@@ -95,7 +100,6 @@ for _, server in ipairs(servers) do
     }
 end
 
--- Configuración especial para Emmet (HTML rápido)
 lspconfig.emmet_ls.setup {
     on_attach = on_attach,
     capabilities = capabilities,

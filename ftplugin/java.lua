@@ -57,6 +57,13 @@ local config = {
             contentProvider = { preferred = 'fernflower' },
             referencesCodeLens = { enabled = false },
             implementationsCodeLens = { enabled = true },
+
+            -- CONFIGURACIÓN DE INLAY HINTS (NOMBRES DE VARIABLES)
+            inlayHints = {
+                parameterNames = {
+                    enabled = "all", -- Muestra el nombre de todos los parámetros (edad, nombre, etc.)
+                }
+            }
         }
     },
 
@@ -141,5 +148,9 @@ dap.listeners.after.event_initialized["configurar_f4_terminal"] = function()
     end, 500)
 end
 
+-- Activar Inlay Hints si el servidor lo soporta
+if client.server_capabilities.inlayHintProvider then
+    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+end
 
 

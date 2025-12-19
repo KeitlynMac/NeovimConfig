@@ -230,6 +230,10 @@ Plug 'L3MON4D3/LuaSnip'
 
  Plug 'rcarriga/nvim-dap-ui'
 
+ "Python
+"Soporte para Debugging en Python
+Plug 'mfussenegger/nvim-dap-python'
+
 
  "---quickfix---
 Plug 'nvim-telescope/telescope-ui-select.nvim'

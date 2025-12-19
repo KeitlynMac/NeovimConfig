@@ -91,7 +91,7 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 end
 
-local servers = { 'ts_ls', 'html', 'cssls', 'sqlls', 'intelephense' }
+local servers = { 'ts_ls', 'html', 'cssls', 'sqlls', 'intelephense', 'pyright' }
 
 for _, server in ipairs(servers) do
     lspconfig[server].setup {
@@ -103,5 +103,5 @@ end
 lspconfig.emmet_ls.setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    filetypes = {'html', 'css', 'javascriptreact', 'typescriptreact', 'vue', 'svelte'},
+    filetypes = {'html', 'css', 'javascriptreact', 'typescriptreact', 'vue', 'svelte', 'pyright'},
 }

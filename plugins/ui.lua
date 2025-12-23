@@ -25,28 +25,18 @@ end
 dashboard.section.buttons.val = {
     -- Acciones Principales
     -- Botón 'p': ABRIR EXISTENTE (Telescope Projects)
-    dashboard.button("p", "  > Proyectos Recientes", ":Telescope projects<CR>"),
+    dashboard.button("a", "🗃️ ➡️ Proyectos Recientes", ":Telescope projects<CR>"),
     dashboard.button("n", "📂 ➡️ New file", ":ene <BAR> startinsert <CR>"),
-    dashboard.button("f", "🗃️ ➡️ Find file", ":cd $HOME | Telescope find_files<CR>"),
+    dashboard.button("f", "📄 ➡️ Find file", ":cd $HOME | Telescope find_files<CR>"),
     dashboard.button("r", "📌 ➡️ Recent", ":Telescope oldfiles<CR>"),
 
     -- Espacio y Título de Bookmarks
     { type = "text", val = "─── 📍 Bookmarks ───", opts = { hl = "SpecialComment", position = "center" } },
 
-    -- TUS MARCADORES (¡Edita las rutas aquí!)
-    -- Ejemplo: Ir a la carpeta de la Universidad (Tecla 'u')
-    dashboard.button("c", "☕  > Crear Proyecto Java", create_new_project),
-
-    dashboard.button("u", "📚 > University", ":cd ~/Documents/Universidad | Telescope find_files<CR>"),
-    
-    -- Ejemplo: Ir a la carpeta de Proyectos (Tecla 'p')
-    dashboard.button("w", "💼  > Projects", ":NvimTreeClose |  NvimTreeOpen ~/Programming/Practicas/<CR>"),
-    
-    dashboard.button("s", "⚙️  > Config", ":NvimTreeClose | NvimTreeOpen ~/.config/nvim<CR>"),
-
-
-    -- Espacio y Salir
-    dashboard.button("q", "❌  > Quit NVIM", ":qa<CR>"),
+    dashboard.button("c", "☕ ➡️ Crear Proyecto Java", create_new_project),
+    dashboard.button("p", "💼 ➡️ Proyectos Java", ":NvimTreeClose |  NvimTreeOpen ~/Programming/Practicas/<CR>"),
+    dashboard.button("v", "⚙️ ➡️ Config", ":NvimTreeClose | NvimTreeOpen ~/.config/nvim<CR>"),
+    dashboard.button("q", "❌ ➡️ Quit NVIM", ":qa<CR>"),
 }
 
 -- 3. EL PIE DE PÁGINA (Footer)
@@ -55,7 +45,7 @@ local function footer()
     local version = vim.version()
     local print_version = "v" .. version.major .. "." .. version.minor .. "." .. version.patch
     local date = os.date("%d-%m-%Y")
-    return "Neovim " .. print_version .. "  |  " .. date
+    return "Hola Keitlyn | Neovim " .. print_version .. "  |  " .. date
 end
 dashboard.section.footer.val = footer()
 

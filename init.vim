@@ -1,6 +1,6 @@
 set number
 set signcolumn=yes:1
-set statuscolumn=%s%=%{v:relnum?v:relnum:v:lnum}\ \ \ 
+"set statuscolumn=%s%=%{v:relnum?v:relnum:v:lnum}\ \ \ 
 set numberwidth=2
 set termguicolors
 set belloff=all
@@ -11,6 +11,7 @@ set ignorecase
 set encoding=utf-8
 set showmatch
 set bg=dark
+set showtabline=1
 set smarttab
 set cindent
 set expandtab

@@ -125,7 +125,7 @@ require("bufferline").setup{
         -- Iconos y estilo
         show_buffer_close_icons = false, -- Limpia visualmente (quita la X de cada tab)
         show_close_icon = false,         -- Quita la X grande de la derecha
-        always_show_bufferline = true,
+        always_show_bufferline = false,
         
         -- Si usas NvimTree, esto hace que la barra se mueva a la derecha para no taparlo
         offsets = {

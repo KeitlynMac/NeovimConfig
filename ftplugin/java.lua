@@ -60,7 +60,15 @@ local config = {
             contentProvider = { preferred = 'fernflower' },
             inlayHints = {
                 parameterNames = { enabled = "all" }
-            }
+            },
+            -- AGREGA ESTO:
+            format = {
+                enabled = true,
+                settings = {
+                    url = "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+                    profile = "GoogleStyle",
+                },
+            },
         }
     },
 
@@ -105,3 +113,10 @@ local config = {
 }
 
 jdtls.start_or_attach(config)
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.java",
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})

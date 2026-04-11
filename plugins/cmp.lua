@@ -33,15 +33,14 @@ cmp.setup({
   },
 
   -- -------------------------------------------------------------------
-  -- CORRECCIÓN: Estilo VS Code Real (Icono Izq | Nombre | Tipo Der)
+  -- Estilo VS Code Real (Icono Izq | Nombre | Tipo Der)
   -- -------------------------------------------------------------------
   formatting = {
     fields = { 'kind', 'abbr', 'menu' }, -- Orden de las columnas
     format = function(entry, vim_item)
       local kind = require("lspkind").cmp_format({
-        mode = "symbol_text", -- Pedimos icono Y texto a lspkind
+        mode = "symbol_text", 
         maxwidth = 50,
-        symbol_map = { Copilot = "" } -- (Opcional) Por si usas copilot
       })(entry, vim_item)
 
       -- TRUCO: Separamos el Icono del Texto

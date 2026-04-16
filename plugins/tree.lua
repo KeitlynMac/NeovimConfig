@@ -82,6 +82,7 @@ require("nvim-tree").setup({
   
   view = {
     width = 30,
+    adaptive_size = true,
     side = "left",
     signcolumn = "yes", -- Mantiene el padding a la izquierda
   },

@@ -9,8 +9,9 @@ Plug 'sainnhe/everforest'
 
 "Dashboard
 Plug 'goolord/alpha-nvim'
+Plug 'folke/snacks.nvim'
 
-"cursor
+"cursosss
 Plug 'sphamba/smear-cursor.nvim'
 
 

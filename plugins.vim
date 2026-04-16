@@ -6,6 +6,7 @@ Plug 'rebelot/kanagawa.nvim'
 Plug 'luisiacc/gruvbox-baby', {'branch': 'main'}
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'sainnhe/everforest'
+Plug 'stevedylandev/darkmatter-nvim'
 
 "Dashboard
 Plug 'goolord/alpha-nvim'
@@ -231,6 +232,8 @@ Plug 'L3MON4D3/LuaSnip'
 
  Plug 'rcarriga/nvim-dap-ui'
 
+ Plug 'nvim-neotest/nvim-nio'
+
  "Python
 "Soporte para Debugging en Python
 Plug 'mfussenegger/nvim-dap-python'
@@ -238,6 +241,13 @@ Plug 'mfussenegger/nvim-dap-python'
 
  "---quickfix---
 Plug 'nvim-telescope/telescope-ui-select.nvim'
+
+"--imagenes---
+" Dependencia opcional pero recomendada si escogiste la Opción B
+Plug '3rd/image.nvim' 
+
+" El plugin principal para la previsualización
+Plug 'hmdfrds/focal.nvim'
 
 
 "Git

@@ -61,7 +61,6 @@ local config = {
             inlayHints = {
                 parameterNames = { enabled = "all" }
             },
-            -- AGREGA ESTO:
             format = {
                 enabled = true,
                 settings = {
@@ -107,7 +106,6 @@ local config = {
         vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F4>', ':bd!<CR>', { noremap = true, silent = true })
 
         -- F4 en modo Terminal: Sale del modo terminal y cierra el buffer
-        -- (Útil si el foco se queda atrapado en la terminal del debugger)
         vim.api.nvim_buf_set_keymap(bufnr, 't', '<F4>', '<C-\\><C-n>:bd!<CR>', { noremap = true, silent = true })
     end
 }
@@ -120,3 +118,43 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     vim.lsp.buf.format({ async = false })
   end,
 })
+
+-- ==========================================================
+-- 5. CONFIGURACIÓN VISUAL DEL DEBUGGER (DAP-UI)
+-- ==========================================================
+local status_ok, dapui = pcall(require, "dapui")
+if status_ok then
+    -- Configuramos los botones visuales estilo IDE
+    dapui.setup({
+        controls = {
+            element = "repl",
+            enabled = true,
+            icons = {
+                pause = "⏸️",
+                play = "▶️",
+                step_into = "󰆹",
+                step_over = "⏭️",
+                step_out = "󰆸",
+                step_back = "",
+                run_last = "↻",
+                terminate = "⏹️",
+                disconnect = "⏏️",
+            }
+        }
+    })
+
+    local dap = require('dap')
+
+    -- Eventos para abrir la UI automáticamente al presionar F5
+    dap.listeners.after.event_initialized["dapui_config"] = function()
+        dapui.open()
+    end
+    
+    -- Eventos para cerrar la UI automáticamente al terminar
+    dap.listeners.before.event_terminated["dapui_config"] = function()
+        dapui.close()
+    end
+    dap.listeners.before.event_exited["dapui_config"] = function()
+        dapui.close()
+    end
+end

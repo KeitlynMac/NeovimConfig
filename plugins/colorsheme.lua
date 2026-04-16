@@ -35,30 +35,33 @@
 -- CONFIGURACIÓN DEL TEMA EVERFOREST
 -- -------------------------------------------------------------------
 
--- 1. Asegurar colores verdaderos
-vim.opt.termguicolors = true
-vim.opt.background = "dark" 
+-- -- 1. Asegurar colores verdaderos
+-- vim.opt.termguicolors = true
+-- vim.opt.background = "dark" 
 
--- Modo de fondo: 'hard', 'medium' (por defecto), o 'soft'
--- 'soft' es el más suave para los ojos
-vim.g.everforest_background = 'hard' 
+-- -- Modo de fondo: 'hard', 'medium' (por defecto), o 'soft'
+-- -- 'soft' es el más suave para los ojos
+-- vim.g.everforest_background = 'hard' 
 
--- Contraste: 'normal' (default), 'high', o 'low'
-vim.g.everforest_contrast = 'normal'
+-- -- Contraste: 'normal' (default), 'high', o 'low'
+-- vim.g.everforest_contrast = 'normal'
 
--- Estilos: Cursiva para comentarios
-vim.g.everforest_enable_italic = 1
-vim.g.everforest_comments = 'italic' 
+-- -- Estilos: Cursiva para comentarios
+-- vim.g.everforest_enable_italic = 1
+-- vim.g.everforest_comments = 'italic' 
 
--- Color de las líneas de indentación (para que sean visibles)
-vim.g.everforest_disable_cursorline = 0
-vim.g.everforest_cursor_text_color = 1 
+-- -- Color de las líneas de indentación (para que sean visibles)
+-- vim.g.everforest_disable_cursorline = 0
+-- vim.g.everforest_cursor_text_color = 1 
 
--- Haz que el menú emergente sea un poco más oscuro para que resalte sin bordes
-vim.api.nvim_set_hl(0, "Pmenu", { bg = "#273940" }) -- Ajusta este color según tu gusto
+-- -- Haz que el menú emergente sea un poco más oscuro para que resalte sin bordes
+-- vim.api.nvim_set_hl(0, "Pmenu", { bg = "#273940" }) -- Ajusta este color según tu gusto
 
--- 3. ACTIVAR EL TEMA
-vim.cmd("colorscheme everforest")
+-- -- 3. ACTIVAR EL TEMA
+-- vim.cmd("colorscheme everforest")
+
+-- Activa el tema Darkmatter
+vim.cmd.colorscheme("darkmatter")
 
 
 

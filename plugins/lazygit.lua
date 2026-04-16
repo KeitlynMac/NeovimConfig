@@ -1,13 +1,15 @@
 -- Configuración para abrir Lazygit con Toggleterm
 local Terminal = require('toggleterm.terminal').Terminal
-local lazygit  = Terminal:new({ 
+
+local lazygit = Terminal:new({ 
   cmd = "lazygit", 
   hidden = true, 
   direction = "float",
   float_opts = {
     border = "curved",
-    width = 100000, -- Ocupa todo el ancho posible
-    height = 100000,
+    -- Calculamos dinámicamente el 90% del tamaño real de tu ventana
+    width = math.floor(vim.o.columns * 0.9),
+    height = math.floor(vim.o.lines * 0.9),
   },
   on_open = function(term)
     -- Al abrir, entramos en modo terminal automáticamente

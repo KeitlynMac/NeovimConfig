@@ -9,7 +9,6 @@ Plug 'sainnhe/everforest'
 Plug 'stevedylandev/darkmatter-nvim'
 
 "Dashboard
-Plug 'goolord/alpha-nvim'
 Plug 'folke/snacks.nvim'
 
 "cursosss

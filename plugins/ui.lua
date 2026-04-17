@@ -1,61 +1,61 @@
---- PANTALLA DE INICIO (ALPHA DASHBOARD) ---
-local alpha = require("alpha")
-local dashboard = require("alpha.themes.dashboard")
+-- --- PANTALLA DE INICIO (ALPHA DASHBOARD) ---
+-- local alpha = require("alpha")
+-- local dashboard = require("alpha.themes.dashboard")
 
--- 1. EL HEADER (Tu arte ASCII)
-dashboard.section.header.val = {
-    "                                                     ",
-    "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
-    "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
-    "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
-    "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
-    "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
-    "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
-    "                                                     ",
-}
--- 2. FUNCIÓN PARA CREAR PROYECTO (La que tú pusiste)
-local function create_new_project()
-    vim.ui.input({ prompt = "Nombre del Proyecto Java: " }, function(input)
-        if input and input ~= "" then
-            vim.cmd("JavaNuevo " .. input)
-        end
-    end)
-end
--- 2. LOS BOTONES Y BOOKMARKS
-dashboard.section.buttons.val = {
-    -- Acciones Principales
-    -- Botón 'p': ABRIR EXISTENTE (Telescope Projects)
-    dashboard.button("a", "🗃️ ➡️ Proyectos Recientes", ":Telescope projects<CR>"),
-    dashboard.button("n", "📂 ➡️ New file", ":ene <BAR> startinsert <CR>"),
-    dashboard.button("f", "📄 ➡️ Find file", ":cd $HOME | Telescope find_files<CR>"),
-    dashboard.button("r", "📌 ➡️ Recent", ":Telescope oldfiles<CR>"),
+-- -- 1. EL HEADER (Tu arte ASCII)
+-- dashboard.section.header.val = {
+--     "                                                     ",
+--     "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
+--     "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
+--     "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
+--     "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
+--     "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
+--     "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
+--     "                                                     ",
+-- }
+-- -- 2. FUNCIÓN PARA CREAR PROYECTO (La que tú pusiste)
+-- local function create_new_project()
+--     vim.ui.input({ prompt = "Nombre del Proyecto Java: " }, function(input)
+--         if input and input ~= "" then
+--             vim.cmd("JavaNuevo " .. input)
+--         end
+--     end)
+-- end
+-- -- 2. LOS BOTONES Y BOOKMARKS
+-- dashboard.section.buttons.val = {
+--     -- Acciones Principales
+--     -- Botón 'p': ABRIR EXISTENTE (Telescope Projects)
+--     dashboard.button("a", "🗃️ ➡️ Proyectos Recientes", ":Telescope projects<CR>"),
+--     dashboard.button("n", "📂 ➡️ New file", ":ene <BAR> startinsert <CR>"),
+--     dashboard.button("f", "📄 ➡️ Find file", ":cd $HOME | Telescope find_files<CR>"),
+--     dashboard.button("r", "📌 ➡️ Recent", ":Telescope oldfiles<CR>"),
 
-    -- Espacio y Título de Bookmarks
-    { type = "text", val = "─── 📍 Bookmarks ───", opts = { hl = "SpecialComment", position = "center" } },
+--     -- Espacio y Título de Bookmarks
+--     { type = "text", val = "─── 📍 Bookmarks ───", opts = { hl = "SpecialComment", position = "center" } },
 
-    dashboard.button("c", "☕ ➡️ Crear Proyecto Java", create_new_project),
-    dashboard.button("p", "💼 ➡️ Proyectos Java", ":NvimTreeClose |  NvimTreeOpen ~/Programming/Practicas/<CR>"),
-    dashboard.button("v", "⚙️ ➡️ Config", ":NvimTreeClose | NvimTreeOpen ~/.config/nvim<CR>"),
-    dashboard.button("q", "❌ ➡️ Quit NVIM", ":qa<CR>"),
-}
+--     dashboard.button("c", "☕ ➡️ Crear Proyecto Java", create_new_project),
+--     dashboard.button("p", "💼 ➡️ Proyectos Java", ":NvimTreeClose |  NvimTreeOpen ~/Programming/Practicas/<CR>"),
+--     dashboard.button("v", "⚙️ ➡️ Config", ":NvimTreeClose | NvimTreeOpen ~/.config/nvim<CR>"),
+--     dashboard.button("q", "❌ ➡️ Quit NVIM", ":qa<CR>"),
+-- }
 
--- 3. EL PIE DE PÁGINA (Footer)
-local function footer()
-    -- Muestra versión y fecha
-    local version = vim.version()
-    local print_version = "v" .. version.major .. "." .. version.minor .. "." .. version.patch
-    local date = os.date("%d-%m-%Y")
-    return "Hola Keitlyn | Neovim " .. print_version .. "  |  " .. date
-end
-dashboard.section.footer.val = footer()
+-- -- 3. EL PIE DE PÁGINA (Footer)
+-- local function footer()
+--     -- Muestra versión y fecha
+--     local version = vim.version()
+--     local print_version = "v" .. version.major .. "." .. version.minor .. "." .. version.patch
+--     local date = os.date("%d-%m-%Y")
+--     return "Hola Keitlyn | Neovim " .. print_version .. "  |  " .. date
+-- end
+-- dashboard.section.footer.val = footer()
 
--- 4. APLICAR CONFIGURACIÓN
-alpha.setup(dashboard.config)
+-- -- 4. APLICAR CONFIGURACIÓN
+-- alpha.setup(dashboard.config)
 
--- Desactivar plegado de código en el dashboard para que no se vea feo
-vim.cmd([[
-    autocmd FileType alpha setlocal nofoldenable
-]])
+-- -- Desactivar plegado de código en el dashboard para que no se vea feo
+-- vim.cmd([[
+--     autocmd FileType alpha setlocal nofoldenable
+-- ]])
 
 
 

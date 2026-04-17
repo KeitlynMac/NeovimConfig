@@ -70,3 +70,18 @@ if exists("g:neovide")
     set title
     let &titlestring = " "
 endif
+
+
+" --- Atajos para Copiar y Pegar al portapapeles del sistema ---
+    
+    " Copiar con Ctrl+C (al seleccionar texto en modo visual)
+    vnoremap <C-c> "+y
+    
+    " Pegar con Ctrl+V en modo normal
+    nnoremap <C-v> "+p
+    
+    " Pegar con Ctrl+V en modo insertar (mientras escribes)
+    inoremap <C-v> <C-r>+
+    
+    " Pegar con Ctrl+V en la línea de comandos de Vim (abajo)
+    cnoremap <C-v> <C-r>+

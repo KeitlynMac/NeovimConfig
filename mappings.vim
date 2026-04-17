@@ -1,12 +1,11 @@
 
 "Telescope configuration
 " Find files using Telescope command-line sugar.
-nnoremap <space>ff <cmd> :Telescope find_files<cr>
+"nnoremap <space>ff <cmd> :Telescope find_files<cr>
 nnoremap <space>fa <cmd> :Telescope live_grep<cr>
 nnoremap <space>hj <cmd> :Telescope buffers<cr>
 
-" Volver al Dashboard (Home) con Leader + h
-nnoremap <space>h :Alpha<CR>
+
 
 
 " CONFIGURACION DE COMENTARIOS
@@ -14,8 +13,8 @@ nnoremap  <silent><space>/ :Commentary<CR>
 vnoremap  <silent><space>/ :Commentary<CR>
 
 "NvimTree
-nnoremap <silent><space>a :NvimTreeOpen <CR>
-nnoremap <silent><space>n :NvimTreeClose <CR>
+" nnoremap <silent><space>a :NvimTreeOpen <CR>
+" nnoremap <silent><space>n :NvimTreeClose <CR>
 
 "Split resize
 nnoremap <space>. 10<C-w>>
@@ -43,7 +42,7 @@ nmap <silent><C-s> :w<CR>
 imap <silent><C-s> <c-o>:w<CR>
 
 "Remplazar palabra
-nnoremap re yiw:%s/<C-r>0//g<Left><Left>
+"nnoremap re yiw:%s/<C-r>0//g<Left><Left>
 
 "Java completado
 

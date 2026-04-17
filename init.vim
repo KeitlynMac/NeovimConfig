@@ -34,20 +34,30 @@ set shell=bash
 set shellcmdflag=-lc
 
 so ~/.config/nvim/plugins.vim
+
 runtime! plugins/*.lua
+
 so ~/.config/nvim/require.vim
+
 so ~/.config/nvim/mappings.vim
+
 so ~/.config/nvim/plug-conf.vim
+
 " Desactivar la columna de estado en el Dashboard y NvimTree para que se vean limpios
-autocmd FileType alpha,NvimTree setlocal statuscolumn= nonumber norelativenumber signcolumn=no
+
+autocmd FileType alpha,NvimTree setlocal statuscolumn= nonumber norelativenumber signcolumn=no 
 
 
 if exists("g:neovide")
     " 1. Configura tu fuente Nerd Font y el tamaño
     set guifont=ZedMono\ Nerd\ Font:h14
+    
+
+    let g:neovide_maximized = v:true
+
 
     " 2. Efecto de vidrio / transparencia sutil en el fondo
-    let g:neovide_transparency = 0.95
+    let g:neovide_opacity = 0.95
 
     " 3. Animaciones fluidas del cursor 
     let g:neovide_cursor_animation_length = 0.13

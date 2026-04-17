@@ -56,6 +56,8 @@ local config = {
 
     settings = {
         java = {
+
+            autobuild = { enabled = true },
             signatureHelp = { enabled = true },
             contentProvider = { preferred = 'fernflower' },
             inlayHints = {

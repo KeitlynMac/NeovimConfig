@@ -6,6 +6,10 @@ lua <<EOF
   -- Configuración de Plugins Mayores
   require("nvim-autopairs").setup{}
 
+
+  -- Dentro de require.vim, en el bloque lua
+
+
   -- MASON y LSP (DEBEN IR JUNTOS)
   -- require'nvim-lsp-installer'.setup {} -- ¡OBSOLETO!
 

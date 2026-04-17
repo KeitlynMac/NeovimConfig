@@ -51,11 +51,6 @@ autocmd FileType alpha,NvimTree setlocal statuscolumn= nonumber norelativenumber
 if exists("g:neovide")
     " 1. Configura tu fuente Nerd Font y el tamaño
     set guifont=ZedMono\ Nerd\ Font:h14
-    
-
-    let g:neovide_maximized = v:true
-
-
     " 2. Efecto de vidrio / transparencia sutil en el fondo
     let g:neovide_opacity = 0.95
 
@@ -69,19 +64,16 @@ if exists("g:neovide")
     " 5. MAGIA PARA EL TÍTULO: Habilita el título y lo deja en blanco
     set title
     let &titlestring = " "
+
+    " --- Atajos para Copiar y Pegar al portapapeles del sistema ---
+    vnoremap <C-c> "+y
+    nnoremap <C-v> "+p
+    
+    " EL CAMBIO ESTÁ AQUÍ (Agregamos <C-o> para pegar literal sin auto-indentar):
+    inoremap <C-v> <C-r><C-o>+
+    
+    cnoremap <C-v> <C-r>+
+    
 endif
 
 
-" --- Atajos para Copiar y Pegar al portapapeles del sistema ---
-    
-    " Copiar con Ctrl+C (al seleccionar texto en modo visual)
-    vnoremap <C-c> "+y
-    
-    " Pegar con Ctrl+V en modo normal
-    nnoremap <C-v> "+p
-    
-    " Pegar con Ctrl+V en modo insertar (mientras escribes)
-    inoremap <C-v> <C-r>+
-    
-    " Pegar con Ctrl+V en la línea de comandos de Vim (abajo)
-    cnoremap <C-v> <C-r>+

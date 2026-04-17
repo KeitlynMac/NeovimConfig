@@ -93,14 +93,56 @@ local config = {
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
         vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
         
-        -- Ejecutar Debug (F5)
+        -- ==========================================================
+        -- ATAJOS DE EJECUCIÓN (Run & Debug)
+        -- ==========================================================
+
+        -- Ejecutar NORMAL (F5) - Corre el programa más rápido, sin Hot Swap
         vim.keymap.set('n', '<F5>', function() 
             if vim.tbl_count(dap.configurations.java or {}) == 0 then
                 require('jdtls.dap').setup_dap_main_class_configs()
             end
+            -- Forzamos a que se omita el debugger
+            for _, config in ipairs(dap.configurations.java or {}) do
+                config.noDebug = true 
+            end
             dap.continue() 
         end, opts)
 
+        -- Ejecutar DEBUG (F6) - Corre el programa enganchado al debugger para usar Hot Swap
+        vim.keymap.set('n', '<F6>', function() 
+            if vim.tbl_count(dap.configurations.java or {}) == 0 then
+                require('jdtls.dap').setup_dap_main_class_configs()
+            end
+            -- Forzamos a que SÍ se use el debugger
+            for _, config in ipairs(dap.configurations.java or {}) do
+                config.noDebug = false 
+            end
+            dap.continue() 
+        end, opts)
+
+        -- ==========================================================
+        -- EL BOTÓN MÁGICO: Forzar compilación y Hot Swap (Líder + b)
+        -- ==========================================================
+        -- ==========================================================
+        -- EL BOTÓN MÁGICO: Forzar compilación y Hot Swap (Líder + b)
+        -- ==========================================================
+        -- ==========================================================
+        -- EL BOTÓN MÁGICO: Guardar y Forzar Hot Swap (<space> + b)
+        -- ==========================================================
+        vim.keymap.set('n', '<space>b', function()
+            -- 1. Guardamos el archivo actual a la fuerza (esto dispara el autobuild)
+            vim.cmd('write')
+            
+            -- 2. Le exigimos al Debugger (DAP) que inyecte las nuevas clases a la JVM
+            local session = require('dap').session()
+            if session then
+                session:request('redefineClasses')
+                vim.notify("Código inyectado en caliente a la JVM", vim.log.levels.INFO, { title = "InvenCore Hot Swap", icon = "🔥" })
+            else
+                vim.notify("No hay sesión activa. Ejecuta con F6 primero.", vim.log.levels.WARN, { title = "Aviso" })
+            end
+        end, opts)
         -- ==========================================================
         -- 4. TUS ATAJOS RESTAURADOS (<F4> para salir)
         -- ==========================================================

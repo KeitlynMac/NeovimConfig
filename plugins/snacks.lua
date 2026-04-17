@@ -17,10 +17,17 @@ require("snacks").setup({
     preset = {
       -- Eliminé el arte ASCII del header de aquí para mantener el código más limpio
       keys = {
-        { icon = "🗃️ ", key = "a", desc = "Proyectos Recientes", action = ":Telescope projects" },
+        -- Snacks.picker.projects() busca en los directorios recientes
+        { icon = "🗃️ ", key = "a", desc = "Proyectos Recientes", action = ":lua Snacks.picker.projects()" },
+        
         { icon = "📂 ", key = "n", desc = "New file",            action = ":ene | startinsert" },
-        { icon = "📄 ", key = "f", desc = "Find file",           action = ":cd $HOME | Telescope find_files" },
-        { icon = "📌 ", key = "r", desc = "Recent",              action = ":Telescope oldfiles" },
+        
+        -- Le pasamos cwd = '~' para que busque archivos desde tu carpeta HOME, reemplazando el :cd $HOME
+        { icon = "📄 ", key = "f", desc = "Find file",           action = ":lua Snacks.picker.files({ cwd = '~' })" },
+        
+        -- Snacks.picker.recent() es el equivalente directo a Telescope oldfiles
+        { icon = "📌 ", key = "r", desc = "Recent",              action = ":lua Snacks.picker.recent()" },
+        
         { icon = "☕ ", key = "c", desc = "Crear Proyecto Java", action = create_new_project },
         { icon = "💼 ", key = "p", desc = "Proyectos Java",      action = ":lua Snacks.explorer({ cwd = '~/Programming/Practicas/' })" },
         { icon = "⚙️ ", key = "v", desc = "Config",              action = ":lua Snacks.explorer({ cwd = '~/.config/nvim' })" },
@@ -40,7 +47,7 @@ require("snacks").setup({
 
       -- PANEL DERECHO (pane = 2)
       { pane = 2, icon = " ", title = "Opciones",         section = "keys",         indent = 2, padding = 1 },
-      { pane = 2, icon = " ", title = "Archivos",         section = "recent_files", indent = 2, padding = 1 },
+      { pane = 2, icon = " ", title = "Recientes",         section = "recent_files", indent = 2, padding = 1 },
       { pane = 2, icon = " ", title = "Proyectos",        section = "projects",     indent = 2, padding = 1 },
 
       -- FOOTER CENTRADO
